@@ -1,6 +1,8 @@
 # Dataplex Extract Data Quality Scan Rules
 
-This is a tool to extract Data Quality Scan Rules from an existing Dataplex Data Quality Scan
+This is a tool to extract Data Quality Scan Rules from an existing Dataplex Data Quality Scan into a YAML file that can be re-used to create a new Data Quality Scan or update an existing one. The generated file can also be used to [automate Data Quality scans through CI/CD pipelines with terraform](https://docs.cloud.google.com/dataplex/docs/manage-data-quality-rules-as-code).
+
+
 
 
 ## Prerequisites
@@ -33,6 +35,11 @@ python dataplex-extract-data-quality-rules.py \
 ```
 
 This will connect to Dataplex, fetch the specified scan's configuration, and save its rules to `my-rules.yaml`.
+
+
+## Automate Data Quality Scans with CI/CD
+
+The generated data quality rules file can also be used to [automate Data Quality scans through CI/CD pipelines with terraform](https://docs.cloud.google.com/dataplex/docs/manage-data-quality-rules-as-code).
 
 ## `rules.yaml` File Reference
 
