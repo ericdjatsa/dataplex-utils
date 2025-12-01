@@ -4,7 +4,6 @@ This is a tool to extract Data Quality Scan Rules from an existing Dataplex Data
 
 
 
-
 ## Prerequisites
 
 1.  **Google Cloud SDK**: Ensure you have `gcloud` installed and authenticated.
@@ -37,11 +36,36 @@ python dataplex-extract-data-quality-rules.py \
 This will connect to Dataplex, fetch the specified scan's configuration, and save its rules to `my-rules.yaml`.
 
 
-## Automate Data Quality Scans with CI/CD
+### 2. Update or Create a Data Quality Scan
+
+
+After extracting the rules, you can modify them and update the previous data quality scan with this command : 
+
+    ```bash
+    gcloud dataplex datascans update data-quality <your-existing-scan-id> \
+      --location=<gcp-region> \
+      --data-quality-spec-file=rules.yaml \
+      --location=<gcp-region> \
+    ```
+
+Or create a new data quality scan with this command : 
+
+    ```bash
+    gcloud dataplex datascans create data-quality <your-new-scan-id> \
+      --data-source-resource="//bigquery.googleapis.com/projects/<your-project-id>/datasets/<your-dataset>/tables/<your-table>" \
+      --location=<gcp-region> \
+      --data-quality-spec-file=rules.yaml
+    ```
+
+    Make sure you replace the placeholder values with your specific resource names.
+
+
+  ### 3. Automate Data Quality Scans with CI/CD
 
 The generated data quality rules file can also be used to [automate Data Quality scans through CI/CD pipelines with terraform](https://docs.cloud.google.com/dataplex/docs/manage-data-quality-rules-as-code).
 
-## `rules.yaml` File Reference
+
+   ## `rules.yaml` File Reference
 
 The `rules.yaml` file is the core of your data quality specification. It contains a list of rules to be applied to your table. The file must start with a `rules:` key.
 
@@ -121,26 +145,4 @@ This rule checks that column values are members of a predefined set. It is assoc
   ignoreNull: true
   dimension: VALIDITY
   threshold: 1.0
-```
-
-## Running the Scan
-
-After extracting the rules, you can modify them and update the previous data quality scan with this command : 
-
-    ```bash
-    gcloud dataplex datascans update data-quality <your-existing-scan-id> \
-      --location=<gcp-region> \
-      --data-quality-spec-file=rules.yaml \
-      --location=<gcp-region> \
-    ```
-
-Or create a new data quality scan with this command : 
-
-    ```bash
-    gcloud dataplex datascans create data-quality <your-new-scan-id> \
-      --data-source-resource="//bigquery.googleapis.com/projects/<your-project-id>/datasets/<your-dataset>/tables/<your-table>" \
-      --location=<gcp-region> \
-      --data-quality-spec-file=rules.yaml
-    ```
-
-    Make sure you replace the placeholder values with your specific resource names.
+``` 
